@@ -1,6 +1,6 @@
 extends TileMap
 
-#Tetro's coordinates for eeach tetrimino shape as well as each of their rotations
+#Tetr's coordinates for eeach tetrimino shape as well as each of their rotations
 var i0 := [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1)]
 var i90 := [Vector2i(2, 0), Vector2i(2, 1), Vector2i(2, 2), Vector2i(2, 3)]
 var i180 := [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(3, 2)]
@@ -44,7 +44,16 @@ var j270 := [Vector2i(1, 0), Vector2i(1, 1), Vector2i(0, 2), Vector2i(1, 2)]
 var j := [j0, j90, j180, j270]
 
 var tetrs := [i, t, o, z, s, l, j]
-var shapes_full := tetrs.duplicate()
+
+#Constants for grid
+const COLUMNS : int = 10
+const ROWS : int = 20
+
+#Variables for the different tetrs
+var tetrShape
+var nextTetrShape
+var rotateIndex : int = 0
+var currTetr : Array
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass # Replace with function body.
@@ -53,3 +62,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+func createPiece(piece, pos, atlas):
+	for i in piece:
+	  set_cell()
