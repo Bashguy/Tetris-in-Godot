@@ -150,7 +150,7 @@ func createTetr(piece, pos, atlas):
 	for i in piece:
 		set_cell(currLayer, pos + i, tileId, atlas)
 
-
+#Function that implements the rotations for the tetrs
 func rotateTetr():
 	if rotateCheck():
 		removeTetr()
@@ -195,6 +195,7 @@ func moveCheck(dir):
 			mc = false
 	return mc
 
+#Function that checks if a tetr can be rotated if it isnt overlapping with the borders
 func rotateCheck():
 	var rc = true
 	var tempRotateIndex = (rotateIndex + 1) % 4
@@ -213,7 +214,7 @@ func landTetr():
 		erase_cell(currLayer, currentPosition + i)
 		set_cell(boardLayer, currentPosition + i, tileId, tetrAtlas)
 
-
+#Function that removes the tiles in the next box after they are placed so there is no overlapping
 func removePanel():
 	for i in range(14, 19):
 		for j in range(2, 13):
