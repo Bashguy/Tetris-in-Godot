@@ -67,6 +67,11 @@ var nextNextNextTetrShape
 var rotateIndex : int = 0
 var currTetr : Array
 
+#Variables for the score
+var score : int
+const GIVEPOINT : int = 100
+const TETRIS : int = 1000
+
 #Variables for the tilemap
 var tileId :int = 0
 var tetrAtlas : Vector2i
@@ -82,6 +87,7 @@ func _ready():
 	newGame()
 	
 func newGame():
+	score = 0
 	speed = 1.0
 	#Index 0 is left 1 is right and 2 is down
 	steps = [0, 0, 0]
@@ -221,25 +227,41 @@ func removePanel():
 		for j in range(2, 13):
 			erase_cell(currLayer, Vector2i(i, j))
 
-
+#Function to check if a row is empty to delete it
 func rowCheck():
 	var row : int = ROWS
+	var rowsCleared : int = 0
+	#Loop until the top of the board
 	while row > 0:
 		var res = 0
+		#Loop to check if the cells are free
 		for i in range(COLUMNS):
 			if not isFree(Vector2i(i + 1, row)):
 				res += 1
-		#When the row becomes full we erase it and shift down, if not we subtract 1
+		#When the row becomes full we delete it and shift down, if not we subtract 1
 		if res == COLUMNS:
 			shiftRowDown(row)
+			rowsCleared += 1
+			#Give points when a row is completed and updates the display
 		else:
 			row -= 1
+	if rowsCleared == 4:
+		score += TETRIS
+	else:
+		score += GIVEPOINT * rowsCleared
+	
+	
+	$Display.get_node("ScoreLabel").text = "SCORE: " + str(score)
+	rowsCleared = 0
 
-
+#Function that will shift the rest of the rows downward after a row is completed
 func shiftRowDown(row):
 	var atlas
+	#Loop going through the rows from top down
 	for i in range(row, 1, -1):
+		#Loop going through each cells
 		for j in range(COLUMNS):
+			#Takes the cell coordinates and checks if there is a color in that cell
 			atlas = get_cell_atlas_coords(boardLayer, Vector2i(j + 1, i - 1))
 			if atlas == Vector2i(-1, -1):
 				erase_cell(boardLayer, Vector2i(j + 1, i))

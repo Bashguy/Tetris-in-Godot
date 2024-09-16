@@ -116,7 +116,7 @@ theme_override_font_sizes/font_size = 35
 text = "Next "
 horizontal_alignment = 1
 
-[node name="Label2" type="Label" parent="."]
+[node name="ScoreLabel" type="Label" parent="."]
 offset_left = 430.0
 offset_top = 566.0
 offset_right = 516.0
