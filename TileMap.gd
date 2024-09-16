@@ -101,12 +101,12 @@ func newGame():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if Input.is_action_pressed("ui_left"):
-		steps[0] += 10
+		steps[0] += 7
 	elif Input.is_action_pressed("ui_right"):
-		steps[1] += 10
+		steps[1] += 7
 	elif Input.is_action_pressed("ui_down"):
-		steps[2] += 10
-	elif Input.is_action_pressed("ui_up"):
+		steps[2] += 7
+	elif Input.is_action_just_pressed("ui_up"):
 		rotateTetr()
 	#Downward movement for each frame
 	steps[2] += speed
@@ -168,6 +168,7 @@ func moveTetr(dir):
 	else:
 		if dir == Vector2i.DOWN:
 			landTetr()
+			rowCheck()
 			tetrShape = nextTetrShape
 			tetrAtlas = nextTetrAtlas
 			nextTetrShape = selectTetr()
@@ -219,3 +220,28 @@ func removePanel():
 	for i in range(14, 19):
 		for j in range(2, 13):
 			erase_cell(currLayer, Vector2i(i, j))
+
+
+func rowCheck():
+	var row : int = ROWS
+	while row > 0:
+		var res = 0
+		for i in range(COLUMNS):
+			if not isFree(Vector2i(i + 1, row)):
+				res += 1
+		#When the row becomes full we erase it and shift down, if not we subtract 1
+		if res == COLUMNS:
+			shiftRowDown(row)
+		else:
+			row -= 1
+
+
+func shiftRowDown(row):
+	var atlas
+	for i in range(row, 1, -1):
+		for j in range(COLUMNS):
+			atlas = get_cell_atlas_coords(boardLayer, Vector2i(j + 1, i - 1))
+			if atlas == Vector2i(-1, -1):
+				erase_cell(boardLayer, Vector2i(j + 1, i))
+			else:
+				set_cell(boardLayer, Vector2i(j + 1, i), tileId, atlas)
