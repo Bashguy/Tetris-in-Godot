@@ -1,0 +1,213 @@
+[gd_scene load_steps=15 format=3 uid="uid://buulplxvmoya3"]
+
+[ext_resource type="FontFile" uid="uid://b2m7y2tt3pihd" path="res://PlayMeGames-Demo.otf" id="1_jluyx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_v1s0y"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_27wjg"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_g12x4"]
+bg_color = Color(0.6, 0.6, 0.6, 0)
+border_width_left = 5
+border_width_top = 3
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nks8r"]
+bg_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_oeoie"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 5
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_udo4r"]
+bg_color = Color(1, 1, 1, 1)
+border_width_left = 7
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_d0a42"]
+bg_color = Color(1, 1, 1, 0)
+border_width_left = 7
+border_width_top = 3
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7hala"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_whp5a"]
+bg_color = Color(0, 0, 0, 1)
+border_width_left = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4x4pi"]
+bg_color = Color(0, 0, 0, 1)
+border_width_top = 3
+border_width_bottom = 3
+border_color = Color(1, 1, 1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kethi"]
+bg_color = Color(0.948743, 0.35777, 0.577072, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1pkrh"]
+bg_color = Color(0.94902, 0.356863, 0.576471, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j8bvv"]
+bg_color = Color(0.94902, 0.356863, 0.576471, 1)
+
+[node name="Display" type="CanvasLayer"]
+
+[node name="Panel5" type="Panel" parent="."]
+offset_left = 854.0
+offset_top = 254.0
+offset_right = 1088.0
+offset_bottom = 615.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_v1s0y")
+
+[node name="Panel8" type="Panel" parent="."]
+offset_left = 747.0
+offset_top = 540.0
+offset_right = 983.0
+offset_bottom = 630.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_27wjg")
+
+[node name="Panel" type="Panel" parent="."]
+offset_left = 416.0
+offset_top = 52.0
+offset_right = 650.0
+offset_bottom = 413.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_g12x4")
+
+[node name="Panel4" type="Panel" parent="."]
+offset_left = 416.0
+offset_right = 650.0
+offset_bottom = 52.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_nks8r")
+
+[node name="Panel10" type="Panel" parent="."]
+offset_left = 416.0
+offset_top = 555.0
+offset_right = 650.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_oeoie")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 388.0
+offset_top = 17.0
+offset_right = 568.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 35
+text = "Next "
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 430.0
+offset_top = 566.0
+offset_right = 516.0
+offset_bottom = 597.0
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 19
+text = "Score: 0"
+
+[node name="Panel3" type="Panel" parent="."]
+show_behind_parent = true
+visibility_layer = 2
+offset_left = 416.0
+offset_top = 413.0
+offset_right = 650.0
+offset_bottom = 462.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_udo4r")
+
+[node name="Panel2" type="Panel" parent="."]
+offset_left = 414.0
+offset_top = 462.0
+offset_right = 650.0
+offset_bottom = 555.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_d0a42")
+
+[node name="Label3" type="Label" parent="."]
+top_level = true
+offset_left = 423.0
+offset_top = 427.0
+offset_right = 524.0
+offset_bottom = 462.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 35
+text = "hold"
+
+[node name="Panel6" type="Panel" parent="."]
+offset_left = 384.0
+offset_right = 416.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7hala")
+
+[node name="Panel7" type="Panel" parent="."]
+show_behind_parent = true
+visibility_layer = 2
+offset_left = 716.0
+offset_right = 1069.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_whp5a")
+
+[node name="GameOver" type="Label" parent="."]
+offset_left = 75.0
+offset_top = 305.0
+offset_right = 342.0
+offset_bottom = 360.0
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 40
+text = "GAME OVER!"
+
+[node name="Panel9" type="Panel" parent="."]
+offset_right = 32.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7hala")
+
+[node name="Panel11" type="Panel" parent="."]
+offset_left = 32.0
+offset_right = 384.0
+offset_bottom = 32.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4x4pi")
+
+[node name="Panel12" type="Panel" parent="."]
+offset_left = 384.0
+offset_right = 416.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_7hala")
+
+[node name="Panel13" type="Panel" parent="."]
+offset_left = 32.0
+offset_top = 672.0
+offset_right = 384.0
+offset_bottom = 704.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_4x4pi")
+
+[node name="Button" type="Button" parent="."]
+offset_left = 442.0
+offset_top = 615.0
+offset_right = 625.0
+offset_bottom = 672.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 30
+theme_override_styles/normal = SubResource("StyleBoxFlat_kethi")
+theme_override_styles/hover = SubResource("StyleBoxFlat_1pkrh")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_j8bvv")
+text = "new game"

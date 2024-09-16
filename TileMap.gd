@@ -62,6 +62,8 @@ var speed : float
 #Variables for the different tetrs
 var tetrShape
 var nextTetrShape
+var nextNextTetrShape
+var nextNextNextTetrShape
 var rotateIndex : int = 0
 var currTetr : Array
 
@@ -69,6 +71,8 @@ var currTetr : Array
 var tileId :int = 0
 var tetrAtlas : Vector2i
 var nextTetrAtlas : Vector2i
+var nextNextTetrAtlas
+var nextNextNextTetrAtlas
 
 #Variables for the player
 var boardLayer : int = 0
@@ -81,9 +85,16 @@ func newGame():
 	speed = 1.0
 	#Index 0 is left 1 is right and 2 is down
 	steps = [0, 0, 0]
+	$Display.get_node("GameOver").hide()
 	tetrShape = selectTetr()
 	#Assigns our atlas variable to set colors for each unique shape for the tetrs
 	tetrAtlas = Vector2i(shapesFull.find(tetrShape), 0)
+	nextTetrShape = selectTetr()
+	nextTetrAtlas = Vector2i(shapesFull.find(nextTetrShape), 0)
+	nextNextTetrShape = selectTetr()
+	nextNextTetrAtlas = Vector2i(shapesFull.find(nextNextTetrShape), 0)
+	nextNextNextTetrShape = selectTetr()
+	nextNextNextTetrAtlas = Vector2i(shapesFull.find(nextNextNextTetrShape), 0)
 	newTetr()
 
 
@@ -95,6 +106,8 @@ func _process(delta):
 		steps[1] += 10
 	elif Input.is_action_pressed("ui_down"):
 		steps[2] += 10
+	elif Input.is_action_pressed("ui_up"):
+		rotateTetr()
 	#Downward movement for each frame
 	steps[2] += speed
 	#Moving the tetr
@@ -123,6 +136,9 @@ func newTetr():
 	currentPosition = startPosition
 	currTetr = tetrShape[rotateIndex]
 	createTetr(currTetr, currentPosition, tetrAtlas)
+	createTetr(nextTetrShape[0], Vector2i(15, 3), nextTetrAtlas)
+	createTetr(nextNextTetrShape[0], Vector2i(15, 6), nextNextTetrAtlas)
+	createTetr(nextNextNextTetrShape[0], Vector2i(15, 9), nextNextNextTetrAtlas)
 
 #Function to remove any trail made by moving a piece
 func removeTetr():
@@ -134,12 +150,42 @@ func createTetr(piece, pos, atlas):
 	for i in piece:
 		set_cell(currLayer, pos + i, tileId, atlas)
 
+
+func rotateTetr():
+	if rotateCheck():
+		removeTetr()
+		#Modding by 4 to not go past 5 rotations
+		rotateIndex = (rotateIndex + 1) % 4
+		currTetr = tetrShape[rotateIndex]
+		createTetr(currTetr, currentPosition, tetrAtlas)
+
 #Function to move the tetr in a direction
 func moveTetr(dir):
 	if moveCheck(dir):
 		removeTetr()
 		currentPosition += dir
 		createTetr(currTetr, currentPosition, tetrAtlas)
+	else:
+		if dir == Vector2i.DOWN:
+			landTetr()
+			tetrShape = nextTetrShape
+			tetrAtlas = nextTetrAtlas
+			nextTetrShape = selectTetr()
+			nextTetrAtlas = Vector2i(shapesFull.find(nextTetrShape), 0)
+			removePanel()
+			newTetr()
+			nextTetrShape = nextNextTetrShape
+			nextTetrAtlas = nextNextTetrAtlas
+			nextNextTetrShape = selectTetr()
+			nextNextTetrAtlas = Vector2i(shapesFull.find(nextNextTetrShape), 0)
+			removePanel()
+			newTetr()
+			nextNextTetrShape = nextNextNextTetrShape
+			nextNextTetrAtlas = nextNextNextTetrAtlas 
+			nextNextNextTetrShape = selectTetr()
+			nextNextNextTetrAtlas = Vector2i(shapesFull.find(nextNextNextTetrShape), 0)
+			removePanel()
+			newTetr()
 
 #Function that checks if there is space to move
 func moveCheck(dir):
@@ -149,6 +195,26 @@ func moveCheck(dir):
 			mc = false
 	return mc
 
+func rotateCheck():
+	var rc = true
+	var tempRotateIndex = (rotateIndex + 1) % 4
+	for i in tetrShape[tempRotateIndex]:
+		if not isFree(i + currentPosition):
+			rc = false
+	return rc
+
 #Function that returns the id for the tileset thats used in a cell if not empty, if it is it returns -1
 func isFree(pos):
 	return get_cell_source_id(boardLayer, pos) == -1
+
+#Function to remove each tetr from the current layer into the board layer when they get to the ground
+func landTetr():
+	for i in currTetr:
+		erase_cell(currLayer, currentPosition + i)
+		set_cell(boardLayer, currentPosition + i, tileId, tetrAtlas)
+
+
+func removePanel():
+	for i in range(14, 19):
+		for j in range(2, 13):
+			erase_cell(currLayer, Vector2i(i, j))
