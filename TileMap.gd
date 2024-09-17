@@ -74,6 +74,7 @@ const GIVEPOINT : int = 100
 const TETRIS : int = 1000
 var level : int = 1
 var linesCleared : int = 0
+var gameRunning : bool
 
 #Variables for the tilemap
 var tileId :int = 0
@@ -88,13 +89,20 @@ var currLayer : int = 1
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	newGame()
+	$Display.get_node("NewGameButton").pressed.connect(newGame)
 	
 func newGame():
 	score = 0
 	speed = 1.0
+	gameRunning = true
 	#Index 0 is left 1 is right and 2 is down
 	steps = [0, 0, 0]
 	$Display.get_node("GameOver").hide()
+	#Clear the screen after a new game
+	removeTetr()
+	removeBoard()
+	removePanel()
+	$Display.get_node("ScoreLabel").text = "SCORE: " + str(score)
 	tetrShape = selectTetr()
 	#Assigns our atlas variable to set colors for each unique shape for the tetrs
 	tetrAtlas = Vector2i(shapesFull.find(tetrShape), 0)
@@ -106,24 +114,26 @@ func newGame():
 	nextNextNextTetrAtlas = Vector2i(shapesFull.find(nextNextNextTetrShape), 0)
 	newTetr()
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_action_pressed("ui_left"):
-		steps[0] += 7
-	elif Input.is_action_pressed("ui_right"):
-		steps[1] += 7
-	elif Input.is_action_pressed("ui_down"):
-		steps[2] += 7
-	elif Input.is_action_just_pressed("ui_up"):
-		rotateTetr()
-	#Downward movement for each frame
-	steps[2] += speed
-	#Moving the tetr
-	for i in range(steps.size()):
-		if steps[i] > requiredSteps:
-			moveTetr(directions[i])
-			steps[i] = 0
+	if gameRunning:
+		if Input.is_action_pressed("ui_left"):
+			steps[0] += 15
+		elif Input.is_action_pressed("ui_right"):
+			steps[1] += 15
+		elif Input.is_action_pressed("ui_down"):
+			steps[2] += 15
+		elif Input.is_action_just_pressed("ui_up"):
+			rotateTetr()
+		elif Input.is_action_just_pressed("ui.space"):
+			quickDrop()
+		#Downward movement for each frame
+		steps[2] += speed
+		#Moving the tetr
+		for i in range(steps.size()):
+			if steps[i] > requiredSteps:
+				moveTetr(directions[i])
+				steps[i] = 0
 
 #Function to select a random tetr
 func selectTetr():
@@ -196,6 +206,7 @@ func moveTetr(dir):
 			nextNextNextTetrAtlas = Vector2i(shapesFull.find(nextNextNextTetrShape), 0)
 			removePanel()
 			newTetr()
+			gameOverCheck()
 
 #Function that checks if there is space to move
 func moveCheck(dir):
@@ -279,3 +290,45 @@ func shiftRowDown(row):
 				erase_cell(boardLayer, Vector2i(j + 1, i))
 			else:
 				set_cell(boardLayer, Vector2i(j + 1, i), tileId, atlas)
+
+#Function that will clear the board for the start of each new game
+func removeBoard():
+	for i in range(ROWS):
+		for j in range(COLUMNS):
+			erase_cell(boardLayer, Vector2i(j+1, i+1))
+			erase_cell(boardLayer, Vector2i(j+2, i+1))
+
+#Function that will check if a game over has happened and stop the game when it does
+func gameOverCheck():
+	for i in currTetr:
+		if not isFree(i+currentPosition):
+			landTetr()
+			$Display.get_node("GameOver").show()
+			gameRunning = false
+
+
+func quickDrop():
+	if not gameRunning:
+		return
+		
+	var bottom_pos = currentPosition
+	var low = 0
+	var high = ROWS - 1
+	
+	while low <= high:
+		var mid = (low + high) / 2
+		var isValid = true
+		for i in currTetr:
+			if not isFree(Vector2i(currentPosition.x+i.x, mid+i.y)):
+				isValid = false
+				break
+		if isValid:		
+			low = mid + 1
+		else:
+			high = mid - 1
+	
+	bottom_pos.y = high
+	removeTetr()
+	currentPosition = bottom_pos
+	landTetr()
+	moveTetr(Vector2i.DOWN)
