@@ -306,7 +306,7 @@ func gameOverCheck():
 			$Display.get_node("GameOver").show()
 			gameRunning = false
 
-
+#Fuction that uses a binary search to find the valid cell in order to quick drop and quickly place a piece
 func quickDrop():
 	if not gameRunning:
 		return
