@@ -201,9 +201,9 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_4x4pi")
 
 [node name="Button" type="Button" parent="."]
 offset_left = 442.0
-offset_top = 615.0
+offset_top = 630.0
 offset_right = 625.0
-offset_bottom = 672.0
+offset_bottom = 687.0
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = ExtResource("1_jluyx")
 theme_override_font_sizes/font_size = 30
@@ -211,3 +211,12 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_kethi")
 theme_override_styles/hover = SubResource("StyleBoxFlat_1pkrh")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_j8bvv")
 text = "new game"
+
+[node name="LevelLabel" type="Label" parent="."]
+offset_left = 430.0
+offset_top = 597.0
+offset_right = 511.0
+offset_bottom = 623.0
+theme_override_fonts/font = ExtResource("1_jluyx")
+theme_override_font_sizes/font_size = 19
+text = "Level: 1"

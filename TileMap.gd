@@ -58,6 +58,7 @@ const requiredSteps : int = 50
 const startPosition := Vector2i(5, 1)
 var currentPosition : Vector2i
 var speed : float
+const ACCELERATION : float = 0.25
 
 #Variables for the different tetrs
 var tetrShape
@@ -71,6 +72,8 @@ var currTetr : Array
 var score : int
 const GIVEPOINT : int = 100
 const TETRIS : int = 1000
+var level : int = 1
+var linesCleared : int = 0
 
 #Variables for the tilemap
 var tileId :int = 0
@@ -231,6 +234,7 @@ func removePanel():
 func rowCheck():
 	var row : int = ROWS
 	var rowsCleared : int = 0
+	var totalRowsCleared : int = 0
 	#Loop until the top of the board
 	while row > 0:
 		var res = 0
@@ -242,15 +246,23 @@ func rowCheck():
 		if res == COLUMNS:
 			shiftRowDown(row)
 			rowsCleared += 1
+			totalRowsCleared += 1
 			#Give points when a row is completed and updates the display
 		else:
 			row -= 1
+	#If 4 rows are cleared simultaneously it rewards the player with a TETRIS which is 1000 pointst
 	if rowsCleared == 4:
 		score += TETRIS
+	#Else it will give them 100-300 depending on the rows cleared
 	else:
 		score += GIVEPOINT * rowsCleared
-	
-	
+	linesCleared += totalRowsCleared
+	if linesCleared >= 10 * level:
+		level += 1
+		speed += ACCELERATION
+		linesCleared = 0
+		$Display.get_node("LevelLabel").text = "LEVEL: " + str(level)
+	#Updates the Score on the display and rests rowsCleared to 0
 	$Display.get_node("ScoreLabel").text = "SCORE: " + str(score)
 	rowsCleared = 0
 
