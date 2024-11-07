@@ -328,7 +328,7 @@ func quickDrop():
 			high = mid - 1
 	
 	bottom_pos.y = high
-	removeTetr()
+	removeTetr()A
 	currentPosition = bottom_pos
 	landTetr()
 	moveTetr(Vector2i.DOWN)
